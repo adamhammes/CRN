@@ -40,7 +40,7 @@ class CRN:
 				to_print = []
 				plus_sign = ' + '
 				if( first ):			# if we are printing our first species...
-					plus_sign = '' 		# just print an empty string instead
+					plus_sign = '' 		# just print an empty string instead of a plus
 					first = False
 
 				to_print.add( plus_sign )
