@@ -31,6 +31,7 @@ class CRN:
 	# A + B -> C
 	# D -> E
 	# etc.
+	# TODO: option to print to file
 	def console_print( self ):
 		for reaction in reactions:
 			first = True 
