@@ -63,6 +63,6 @@ class CRN:
 
 				print( ''.join( to_print ), end = '' )
 
-			print( '', end = '\n' ) # done printing the reaction, start new line
+			print( '' ) # done printing the reaction, start new line
 
 
