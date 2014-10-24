@@ -32,41 +32,54 @@ class CRN:
 	# D -> E
 	# etc.
 	# TODO: option to print to file
-	def console_print( self ):
+	def nice_print( self, filename, console ):
+		to_print = []
 		for reaction in reactions:
+			line = []
 			first = True 
 			# 'first' keeps track of when to write a + (don't write plus before first item)
 			# we don't want to print something like this : ' + A + B -> C'
 			for species, coefficient in reaction.reactants.iteritems():
-				to_print = []
 				plus_sign = ' + '
 				if( first ):			# if we are printing our first species...
 					plus_sign = '' 		# just print an empty string instead of a plus
 					first = False
 
-				to_print.add( plus_sign )
-				to_print.add( str( coefficient ) )
-				to_print.add( str( species ) )
+				line.add( plus_sign )
+				line.add( str( coefficient ) )
+				line.add( str( species ) )
 
-				print( ''.join( to_print ), end = '' ) # 'end' specifies what to end the line with; default is '\n'
+				print( ''.join( line ), end = '' ) # 'end' specifies what to end the line with; default is '\n'
 
-			print( ' -> ', end = '' )
+			line.add( ' -> ' )
 
-			to_print = [] # clear the list for the products now
 			first = True
 			for species, coefficient in reaction.products.iteritems():
-				to_print = []
 				plus_sign = ' + '
 				if( first ):
 					plus_sign = ''
 					first = False
 
-				to_print.add( plus_sign )
-				to_print.add( str( coefficient ) )
-				to_print.add( str( species ) )
+				line.add( plus_sign )
+				line.add( str( coefficient ) )
+				line.add( str( species ) )
 
-				print( ''.join( to_print ), end = '' )
+			to_print.add( ''.join(line) )
 
-			print( '' ) # done printing the reaction, print newline
+		if( filename ):
+			f.open( filename, 'w' )
+			
+			for line in to_print:
+				f.write( line + '\n' )
+
+			f.close()
+
+		if( console ):
+			for line in to_print:
+				print( line )
+
+
+
+
 
 
