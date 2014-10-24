@@ -15,7 +15,7 @@ class CRN:
 	# This should follow the specifications we discuused Monday
 	# .txt created straight from GUI
 	def from_gui(self, file_name):
-		f = open( file_name, "r" )
+		f = open( file_name, 'r' )
 		#TODO: read file, fill up species/reactions
 		f.close()
 
@@ -23,7 +23,7 @@ class CRN:
 	# A + B -> C, D -> E, etc.
 	# Specification not well defined yet!
 	def from_readable( self, file_name ):
-		f = open( file_name, "r" )
+		f = open( file_name, 'r' )
 		#TODO: read file, fill up species/reactions
 		f.close()
 
@@ -33,28 +33,30 @@ class CRN:
 	# etc.
 	def console_print( self ):
 		for reaction in reactions:
-			first = True # keeps track of when to write a + (don't write plus before first item)
+			first = True 
+			# 'first' keeps track of when to write a + (don't write plus before first item)
+			# we don't want to print something like this : ' + A + B -> C'
 			for species, coefficient in reaction.reactants.iteritems():
 				to_print = []
-				plus_sign = " + "
+				plus_sign = ' + '
 				if( first ):			# if we are printing our first species...
-					plus_sign = "" 		# just print an empty string instead
+					plus_sign = '' 		# just print an empty string instead
 					first = False
 
 				to_print.add( plus_sign )
 				to_print.add( str( coefficient ) )
 				to_print.add( str( species ) )
 
-				print( ''.join( to_print ), end = '' ) # "end" specifies what to end the line with; default is "\n"
+				print( ''.join( to_print ), end = '' ) # 'end' specifies what to end the line with; default is '\n'
 
 			print( ' -> ', end = '' )
 
 			first = True
 			for species, coefficient in reaction.products.iteritems():
 				to_print = []
-				plus_sign = " + "
+				plus_sign = ' + '
 				if( first ):
-					plus_sign = ""
+					plus_sign = ''
 					first = False
 
 				to_print.add( plus_sign )
@@ -63,6 +65,6 @@ class CRN:
 
 				print( ''.join( to_print ), end = '' )
 
-			print( '' ) # done printing the reaction, start new line
+			print( '' ) # done printing the reaction, print newline
 
 
