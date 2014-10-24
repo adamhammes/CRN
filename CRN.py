@@ -51,6 +51,7 @@ class CRN:
 
 			print( ' -> ', end = '' )
 
+			to_print = [] # clear the list for the products now
 			first = True
 			for species, coefficient in reaction.products.iteritems():
 				to_print = []
