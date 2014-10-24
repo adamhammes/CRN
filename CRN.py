@@ -1,4 +1,4 @@
-from __future__ import print_function
+from __future__ import print_function # allows us to easily print to the same line twice
 from sets import Set
 from Reaction import Reaction
 
@@ -27,21 +27,25 @@ class CRN:
 		#TODO: read file, fill up species/reactions
 		f.close()
 
+	# Print reactions in CRN to the console as such:
+	# A + B -> C
+	# D -> E
+	# etc.
 	def console_print( self ):
 		for reaction in reactions:
-			first = True
+			first = True # keeps track of when to write a + (don't write plus before first item)
 			for species, coefficient in reaction.reactants.iteritems():
 				to_print = []
 				plus_sign = " + "
-				if( first ):
-					plus_sign = ""
+				if( first ):			# if we are printing our first species...
+					plus_sign = "" 		# just print an empty string instead
 					first = False
 
 				to_print.add( plus_sign )
 				to_print.add( str( coefficient ) )
 				to_print.add( str( species ) )
 
-				print( ''.join( to_print ), end = '' )
+				print( ''.join( to_print ), end = '' ) # "end" specifies what to end the line with; default is "\n"
 
 			print( ' -> ', end = '' )
 
