@@ -31,7 +31,6 @@ class CRN:
 	# A + B -> C
 	# D -> E
 	# etc.
-	# TODO: option to print to file
 	def nice_print( self, filename, console ):
 		to_print = []
 		for reaction in reactions:
