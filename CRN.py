@@ -49,8 +49,6 @@ class CRN:
 				line.add( str( coefficient ) )
 				line.add( str( species ) )
 
-				print( ''.join( line ), end = '' ) # 'end' specifies what to end the line with; default is '\n'
-
 			line.add( ' -> ' )
 
 			first = True
