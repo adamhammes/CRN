@@ -12,7 +12,7 @@ class CRN:
 			self.from_gui( gui_txt )
 
 
-	# This should follow the specifications we discuused Monday
+	# This should follow the specifications we discussed Monday
 	# .txt created straight from GUI
 	def from_gui(self, file_name):
 		f = open( file_name, 'r' )
@@ -74,6 +74,78 @@ class CRN:
 		if( console ):
 			for line in to_print:
 				print( line )
+	
+	# Prints CRN to console in diff eq format
+	def diff_eq_print(self, filename, console):
+        	to_print = []
+
+        	# first line = number of species
+        	line = []
+        	line.add(str(len(species)))
+        	to_print.add(''.join(line))
+	
+        	# second line = list of species
+        	line = []
+        	first = True
+
+	        for s in species.iteritems():
+        	    space = ' '
+
+            	if first:
+                	space = ''
+                	first = False
+
+        	line.add(space)
+        	line.add(str(s))
+
+        	to_print.add(''.join(line))
+
+        	# diff eq descriptions
+        	for s in species.iteritems():
+            		# first line = header for species
+            		line = []
+            		space = ' '
+            		line.add('Species = ')
+            		line.add(str(s))
+            		to_print.add(''.join(line))
+
+            		for r in reactions.iteritems():
+                		stoich = r.stoichiometry(s)
+
+                		if stoich == 0:
+                    			continue
+
+                		# coefficient
+                		line = []
+                		prefix = ''
+                		if stoich == 1:
+                    			prefix = ''
+                		elif stoich == -1:
+                    			prefix = '-'
+                		else:
+                    			prefix = str(stoich)
+
+		                line.add(prefix)
+                		line.add(str(r.rate))
+
+                		# exponents
+                		for c in r.reactants.iteritems():
+                    			line.add(space)
+                    			line.add(str(c))
+	
+        			        to_print.add(''.join(line))
+
+        	if filename:
+        		f.open(filename, 'w')
+        	
+        		for line in to_print:
+                		f.write(line + '\n')
+
+            		f.close()
+
+        	if console:
+            		for line in to_print:
+                		print(line)
 
 
 
