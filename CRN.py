@@ -73,10 +73,6 @@ class CRN:
 
 		if( console ):
 			for line in to_print:
-<<<<<<< HEAD
-				print( line )
-=======
-				print( line )
 	
 	# Prints CRN to console in diff eq format
 	def diff_eq_print(self, filename, console):
@@ -160,9 +156,3 @@ class CRN:
             		for line in to_print:
                 		print(line)
 
-
-
-
-
-
->>>>>>> 80d93eb2d53ddb1f7c9b5156ab6b58d63a1c1dd6
