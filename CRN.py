@@ -89,25 +89,22 @@ class CRN:
         	first = True
 
 	        for s in species.iteritems():
-        	    space = ' '
+        		space = ' '
 
-            	if first:
-                	space = ''
-                	first = False
+            		if first:
+                		space = ''
+                		first = False
 
-        	line.add(space)
-        	line.add(str(s))
+        		line.add(space)
+        		line.add(str(s))
 
-        	to_print.add(''.join(line))
+        		to_print.add(''.join(line))
 
         	# diff eq descriptions
         	for s in species.iteritems():
-            		# first line = header for species
-            		line = []
-            		space = ' '
-            		line.add('Species = ')
-            		line.add(str(s))
-            		to_print.add(''.join(line))
+        		space = ' '
+            		species_block = []
+            		count = 0
 
             		for r in reactions.iteritems():
                 		stoich = r.stoichiometry(s)
@@ -132,8 +129,21 @@ class CRN:
                 		for c in r.reactants.iteritems():
                     			line.add(space)
                     			line.add(str(c))
-	
-        			        to_print.add(''.join(line))
+                    		
+                    		species_block.add(''.join(line))
+                    		count += 1
+                    	
+                    	# first line = species num_terms
+        		line = []
+        		line.add(str(s))
+        		line.add(space)
+        		line.add(str(count))
+        		
+        		to_print.add(''.join(line))
+        		
+        		#terms
+        		for line in species_block:
+        			to_print.add(''.join(line))
 
         	if filename:
         		f.open(filename, 'w')
