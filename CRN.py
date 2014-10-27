@@ -74,9 +74,3 @@ class CRN:
 		if( console ):
 			for line in to_print:
 				print( line )
-
-
-
-
-
-
