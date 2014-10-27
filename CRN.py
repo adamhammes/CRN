@@ -87,7 +87,7 @@ class CRN:
         	line = []
         	first = True
 
-	        for s in species.iteritems():
+	        for spec in species:
         		space = ' '
 
             		if first:
@@ -95,18 +95,18 @@ class CRN:
                 		first = False
 
         		line.add(space)
-        		line.add(str(s))
+        		line.add(str(spec))
 
         		to_print.add(''.join(line))
 
         	# diff eq descriptions
-        	for s in species.iteritems():
+        	for spec_lhs in species: #lhs indicates this is the species whose equation we are on
         		space = ' '
             		species_block = []
             		count = 0
 
-            		for r in reactions.iteritems():
-                		stoich = r.stoichiometry(s)
+            		for reac in reactions:
+                		stoich = reac.stoichiometry(spec_lhs)
 
                 		if stoich == 0:
                     			continue
@@ -122,12 +122,12 @@ class CRN:
                     			prefix = str(stoich)
 
 		                line.add(prefix)
-                		line.add(str(r.rate))
+                		line.add(str(reac.rate))
 
                 		# exponents
-                		for c in r.reactants.iteritems():
-                    			line.add(space)
-                    			line.add(str(c))
+                		for spec_rhs in species: #rhs indicates this species appears in a term of the equation
+                			line.add(space)
+                			line.add(reac.reactants.get(spec_rhs, 0))
                     		
                     		species_block.add(''.join(line))
                     		count += 1
@@ -156,3 +156,8 @@ class CRN:
             		for line in to_print:
                 		print(line)
 
+            		f.close()
+
+        	if console:
+            		for line in to_print:
+                		print(line)
