@@ -127,7 +127,7 @@ class CRN:
                 		# exponents
                 		for spec_rhs in species: #rhs indicates this species appears in a term of the equation
                 			line.add(space)
-                			line.add(reac.reactants.get(spec_rhs, 0))
+                			line.add(str(reac.reactants.get(spec_rhs, 0)))
                     		
                     		species_block.add(''.join(line))
                     		count += 1
