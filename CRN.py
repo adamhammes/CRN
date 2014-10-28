@@ -86,19 +86,11 @@ class CRN:
 
 		# second line = list of species
 		line = []
-		first = True
 
 		for spec in species:
-			space = ' '
+			line.add( str( species ) + ' ' )
 
-			if first:
-				space = ''
-				first = False
-
-			line.add(space)
-			line.add(str(spec))
-
-			to_print.add(''.join(line))
+		to_print.add(''.join(line))
 
 		# diff eq descriptions
 		for spec_lhs in species: #lhs indicates this is the species whose equation we are on
