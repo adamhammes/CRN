@@ -44,11 +44,11 @@ class CRN:
 					plus_sign = '' 		# just print an empty string instead of a plus
 					first = False
 
-				line.add( plus_sign )
-				line.add( str( coefficient ) )
-				line.add( str( species ) )
+				line.append( plus_sign )
+				line.append( str( coefficient ) )
+				line.append( str( species ) )
 
-			line.add( ' -> ' )
+			line.append( ' -> ' )
 
 			first = True
 			for species, coefficient in reaction.products.iteritems():
@@ -57,11 +57,11 @@ class CRN:
 					plus_sign = ''
 					first = False
 
-				line.add( plus_sign )
-				line.add( str( coefficient ) )
-				line.add( str( species ) )
+				line.append( plus_sign )
+				line.append( str( coefficient ) )
+				line.append( str( species ) )
 
-			to_print.add( ''.join(line) )
+			to_print.append( ''.join(line) )
 
 		if( filename ):
 			f.open( filename, 'w' )
@@ -81,16 +81,16 @@ class CRN:
 
 		# first line = number of species
 		line = []
-		line.add(str(len(species)))
-		to_print.add(''.join(line))
+		line.append(str(len(species)))
+		to_print.append(''.join(line))
 
 		# second line = list of species
 		line = []
 
 		for spec in species:
-			line.add( str( species ) + ' ' )
+			line.append( str( species ) + ' ' )
 
-		to_print.add(''.join(line))
+		to_print.append(''.join(line))
 
 		# diff eq descriptions
 		for spec_lhs in species: #lhs indicates this is the species whose equation we are on
@@ -114,28 +114,28 @@ class CRN:
 	        		else:
 	            			prefix = str(stoich)
 
-					line.add(prefix)
-					line.add(str(reac.rate))
+					line.append(prefix)
+					line.append(str(reac.rate))
 
 	        		# exponents
 					for spec_rhs in species: #rhs indicates this species appears in a term of the equation
-						line.add(space)
-	        			line.add(str(reac.reactants.get(spec_rhs, 0)))
+						line.append(space)
+	        			line.append(str(reac.reactants.get(spec_rhs, 0)))
 	            		
-	            		species_block.add(''.join(line))
+	            		species_block.append(''.join(line))
 	            		count += 1
 	            	
 	            	# first line = species num_terms
 			line = []
-			line.add(str(s))
-			line.add(space)
-			line.add(str(count))
+			line.append(str(s))
+			line.append(space)
+			line.append(str(count))
 			
-			to_print.add(''.join(line))
+			to_print.append(''.join(line))
 			
 			#terms
 			for line in species_block:
-				to_print.add(''.join(line))
+				to_print.append(''.join(line))
 
 		if filename:
 			f.open(filename, 'w')
