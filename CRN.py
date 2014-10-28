@@ -73,91 +73,87 @@ class CRN:
 
 		if( console ):
 			for line in to_print:
+				print( line )
 	
 	# Prints CRN to console in diff eq format
 	def diff_eq_print(self, filename, console):
-        	to_print = []
+		to_print = []
 
-        	# first line = number of species
-        	line = []
-        	line.add(str(len(species)))
-        	to_print.add(''.join(line))
-	
-        	# second line = list of species
-        	line = []
-        	first = True
+		# first line = number of species
+		line = []
+		line.add(str(len(species)))
+		to_print.add(''.join(line))
 
-	        for spec in species:
-        		space = ' '
+		# second line = list of species
+		line = []
+		first = True
 
-            		if first:
-                		space = ''
-                		first = False
+		for spec in species:
+			space = ' '
 
-        		line.add(space)
-        		line.add(str(spec))
+			if first:
+				space = ''
+				first = False
 
-        		to_print.add(''.join(line))
+			line.add(space)
+			line.add(str(spec))
 
-        	# diff eq descriptions
-        	for spec_lhs in species: #lhs indicates this is the species whose equation we are on
-        		space = ' '
-            		species_block = []
-            		count = 0
+			to_print.add(''.join(line))
 
-            		for reac in reactions:
-                		stoich = reac.stoichiometry(spec_lhs)
+		# diff eq descriptions
+		for spec_lhs in species: #lhs indicates this is the species whose equation we are on
+			space = ' '
+	    		species_block = []
+	    		count = 0
 
-                		if stoich == 0:
-                    			continue
+	    		for reac in reactions:
+	        		stoich = reac.stoichiometry(spec_lhs)
 
-                		# coefficient
-                		line = []
-                		prefix = ''
-                		if stoich == 1:
-                    			prefix = ''
-                		elif stoich == -1:
-                    			prefix = '-'
-                		else:
-                    			prefix = str(stoich)
+	        		if stoich == 0:
+	            			continue
 
-		                line.add(prefix)
-                		line.add(str(reac.rate))
+	        		# coefficient
+	        		line = []
+	        		prefix = ''
+	        		if stoich == 1:
+	            			prefix = ''
+	        		elif stoich == -1:
+	            			prefix = '-'
+	        		else:
+	            			prefix = str(stoich)
 
-                		# exponents
-                		for spec_rhs in species: #rhs indicates this species appears in a term of the equation
-                			line.add(space)
-                			line.add(str(reac.reactants.get(spec_rhs, 0)))
-                    		
-                    		species_block.add(''.join(line))
-                    		count += 1
-                    	
-                    	# first line = species num_terms
-        		line = []
-        		line.add(str(s))
-        		line.add(space)
-        		line.add(str(count))
-        		
-        		to_print.add(''.join(line))
-        		
-        		#terms
-        		for line in species_block:
-        			to_print.add(''.join(line))
+					line.add(prefix)
+					line.add(str(reac.rate))
 
-        	if filename:
-        		f.open(filename, 'w')
-        	
-        		for line in to_print:
-                		f.write(line + '\n')
+	        		# exponents
+					for spec_rhs in species: #rhs indicates this species appears in a term of the equation
+						line.add(space)
+	        			line.add(str(reac.reactants.get(spec_rhs, 0)))
+	            		
+	            		species_block.add(''.join(line))
+	            		count += 1
+	            	
+	            	# first line = species num_terms
+			line = []
+			line.add(str(s))
+			line.add(space)
+			line.add(str(count))
+			
+			to_print.add(''.join(line))
+			
+			#terms
+			for line in species_block:
+				to_print.add(''.join(line))
 
-            		f.close()
+		if filename:
+			f.open(filename, 'w')
+		
+			for line in to_print:
+				f.write(line + '\n')
 
-        	if console:
-            		for line in to_print:
-                		print(line)
+	    	f.close()
 
-            		f.close()
+		if console:
+			for line in to_print:
+				print(line)
 
-        	if console:
-            		for line in to_print:
-                		print(line)
