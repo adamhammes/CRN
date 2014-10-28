@@ -104,7 +104,7 @@ class CRN:
 	        		if stoich == 0:
 	            			continue
 
-	        		# coefficient
+					# coefficient
 	        		line = []
 	        		prefix = ''
 	        		if stoich == 1:
@@ -117,7 +117,7 @@ class CRN:
 					line.append(prefix)
 					line.append(str(reac.rate))
 
-	        		# exponents
+					# exponents
 					for spec_rhs in species: #rhs indicates this species appears in a term of the equation
 						line.append(space)
 	        			line.append(str(reac.reactants.get(spec_rhs, 0)))
@@ -125,7 +125,7 @@ class CRN:
 	            		species_block.append(''.join(line))
 	            		count += 1
 	            	
-	            	# first line = species num_terms
+			# first line = species num_terms
 			line = []
 			line.append(str(s))
 			line.append(space)
