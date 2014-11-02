@@ -145,7 +145,7 @@ class CRN:
 			for line in to_print:
 				f.write(line + '\n')
 
-	    	f.close()
+	    		f.close()
 
 		if console:
 			for line in to_print:
