@@ -114,9 +114,9 @@ class CRN:
 	# A + B -> C
 	# D -> E
 	# etc.
-	def crn_print( self, file_name, console ):
+	def crn_print( self, file_name = None, console = None ):
 		to_print = []
-		for reaction in reactions:
+		for reaction in self.Reactions:
 			line = []
 			first = True 
 			# 'first' keeps track of when to write a + (don't write plus before first item)
@@ -128,20 +128,24 @@ class CRN:
 					first = False
 
 				line.append( plus_sign )
-				line.append( str( coefficient ) )
+				if coefficient != 1:
+					line.append( str( coefficient ) )
 				line.append( str( species ) )
 
 			line.append( ' -> ' )
 
 			first = True
 			for species, coefficient in reaction.products.iteritems():
+				if coefficient == 0:
+					continue
 				plus_sign = ' + '
 				if( first ):
 					plus_sign = ''
 					first = False
 
 				line.append( plus_sign )
-				line.append( str( coefficient ) )
+				if coefficient != 1:
+					line.append( str( coefficient ) )
 				line.append( str( species ) )
 			
 			line.append(' (Reaction Rate = ')
@@ -151,31 +155,31 @@ class CRN:
 			to_print.append( ''.join(line) )
 
 		if( file_name ):
-			f.open( file_name, 'w' )
+			output = open( file_name, 'w' )
 			
 			for line in to_print:
-				f.write( line + '\n' )
+				output.write( line + '\n' )
 
-			f.close()
+			output.close()
 
 		if( console ):
 			for line in to_print:
 				print( line )
 	
 	# Prints CRN to console in diff eq format
-	def diff_eq_print(self, file_name, console):
+	def diff_eq_print(self, file_name = None, console = None):
 		to_print = []
 
 		# first line = number of species
 		line = []
-		line.append(str(len(species)))
+		line.append( str( len( self.Species ) ) )
 		to_print.append(''.join(line))
 
 		# second line = list of species
 		line = []
 		first = True
 
-		for spec in species:
+		for spec in self.Species:
 			space = ' '
 			
 			if (first):
@@ -185,62 +189,61 @@ class CRN:
 			line.append(space)
 			line.append(str(spec))
 
-		to_print.append(''.join(line))
+			to_print.append(''.join(line))
 
 		# differential equations
-		for spec in species:
+		for spec in self.Species:
 			space = ' '
-	    		species_block = []
-	    		count = 0
+	    	species_block = []
+	    	count = 0
 
-	    		for reaction in reactions:
-	        		stoich = reactino.stoichiometry(spec)
+	    	for reaction in self.Reactions:
+	        	stoich = reaction.stoichiometry(spec)
 
-	        		if (stoich == 0):
-	            			continue
-
-				# coefficient
-	        		line = []
-	        		prefix = ''
+        		if (stoich == 0):
+            			continue
+			# coefficient
+	        	line = []
+	        	prefix = ''
 	        		
-	        		if (stoich == 1):
-	            			prefix = ''
-	        		elif (stoich == -1):
-	            			prefix = '-'
-	        		else:
-	            			prefix = str(stoich)
+	        	if (stoich == 1):
+	            		prefix = ''
+	        	elif (stoich == -1):
+	            		prefix = '-'
+	        	else:
+	            		prefix = str(stoich)
 
 				line.append(prefix)
-				line.append(str(reac.rate))
+				line.append(str(reaction.rate))
 
-				# exponents
-				for reactant, coefficient in reaction.reactants.iteritems():
-					line.append(space)
-					line.append(str(reactant))
-					line.append(':')
-					line.append(str(coefficient))
+			# exponents
+			for reactant, coefficient in reaction.reactants.iteritems():
+				line.append(space)
+				line.append(str(reactant))
+				line.append(':')
+				line.append(str(coefficient))
 				
-				species_block.append(''.join(line))
-				count += 1
+			species_block.append(''.join(line))
+			count += 1
 	            	
-			# first line = species num_terms
-			line = []
-			line.append(str(spec))
-			line.append(space)
-			line.append(str(count))
-			to_print.append(''.join(line))
-			
-			#terms
-			for line in species_block:
-				to_print.append(''.join(line))
+		# first line = species num_terms
+		line = []
+		line.append(str(spec))
+		line.append(space)
+		line.append(str(count))
+		to_print.append(''.join(line))
 
-		if filename:
-			f.open(file_name, 'w')
+		#terms
+		for line in species_block:
+			to_print.append(''.join(line))
+
+		if file_name:
+			output = open(file_name, 'w')
 		
 			for line in to_print:
-				f.write(line + '\n')
+				output.write(line + '\n')
 
-	    		f.close()
+    			output.close()
 
 		if console:
 			for line in to_print:
