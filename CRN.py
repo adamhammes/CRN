@@ -72,7 +72,7 @@ class CRN:
 				
 				for k in range(1, len(list)):
 					exp_list = list[k].split(':')
-					reactant_dict[exp_list[0]] = exp_list[1]
+					reactant_dict[exp_list[0]] = int( exp_list[1] )
 				
 				# products
 				product_dict = {}
