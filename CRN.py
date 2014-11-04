@@ -15,18 +15,91 @@ class CRN:
 	# This should follow the specifications we discussed Monday
 	# .txt created straight from GUI
 	def from_gui(self, file_name):
-		f = open( file_name, 'r' )
-		#TODO: read file, fill up species/reactions
-		lines = f.readlines()
-		species_list = lines[1].split(' ')
-		for word in species_list:
-			Species.add( word )
-
-		while	
-
-
-
-
+		f = open(file_name, 'r')
+		
+		# get number of species
+		line = f.readline()
+		
+		if (not line[-1] == '\n'):
+			print('File format error') # I want a better way to do error
+			f.close()		   # checking, but this will do for now
+			return
+		
+		num_species = int(line.split()[0])
+		
+		# get species
+		line = f.readline()
+		
+		if (not line[-1] == '\n'):
+			print('File format error')
+			f.close()
+			return
+		
+		species.update(set(line.split()))
+		
+		# get species and num_terms
+		for i in range(num_species):
+			line = f.readline()
+			
+			if (not line[-1] == '\n'):
+				print('File format error')
+				f.close()
+				return
+			
+			list = line.split()
+			spec = list[0]
+			num_terms = int(list[1])
+			
+			#get terms
+			for j in range(num_terms):
+				line = f.readline()
+				
+				if (not line[-1] == '\n'):
+					print('File format error')
+					f.close()
+					return
+				
+				list = line.split()
+				
+				# sign
+				negative = (list[0][0] == '-')
+				
+				# rate
+				rate = list[0][1:]
+				
+				# reactants
+				reactant_dict = {}
+				
+				for k in range(1, len(list)):
+					exp_list = list[k].split(':')
+					reactant_dict[exp_list[0]] = exp_list[1]
+				
+				# products
+				product_dict = {}
+				
+				for reactant, coefficient in reactant_dict.iteritems():
+					if (not reactant == spec):
+						product_dict[reactant] = coefficient
+				
+				coeff = reactant_dict.get(spec, 0)
+				
+				if (negative and coeff < 1):
+					print('Cannot convert this system to a CRN')
+					f.close()
+					return
+				elif (negative):
+					product_dict[spec] = coeff - 1
+				else:
+					product_dict[spec] = coeff + 1
+				
+				reaction = Reaction(rate, reactant_dict, product_dict)
+				reactions.add(reaction)
+		
+		line = f.readline()
+		
+		if (line):
+			print('File too long')
+		
 		f.close()
 
 	# Option to read from a more human-friendly format e.g.
@@ -41,7 +114,7 @@ class CRN:
 	# A + B -> C
 	# D -> E
 	# etc.
-	def nice_print( self, filename, console ):
+	def crn_print( self, filename, console ):
 		to_print = []
 		for reaction in reactions:
 			line = []
@@ -70,6 +143,10 @@ class CRN:
 				line.append( plus_sign )
 				line.append( str( coefficient ) )
 				line.append( str( species ) )
+			
+			line.append(' (Reaction Rate = ')
+			line.append(str(reaction.rate))
+			line.append(')')
 
 			to_print.append( ''.join(line) )
 
@@ -86,7 +163,7 @@ class CRN:
 				print( line )
 	
 	# Prints CRN to console in diff eq format
-	def diff_eq_print(self, filename, console):
+	def diff_eq_print(self, file_name, console):
 		to_print = []
 
 		# first line = number of species
@@ -96,51 +173,61 @@ class CRN:
 
 		# second line = list of species
 		line = []
+		first = True
 
 		for spec in species:
-			line.append( str( species ) + ' ' )
+			space = ' '
+			
+			if (first):
+				space = ''
+				first = False
+				
+			line.append(space)
+			line.append(str(spec))
 
 		to_print.append(''.join(line))
 
-		# diff eq descriptions
-		for spec_lhs in species: #lhs indicates this is the species whose equation we are on
+		# differential equations
+		for spec in species:
 			space = ' '
 	    		species_block = []
 	    		count = 0
 
-	    		for reac in reactions:
-	        		stoich = reac.stoichiometry(spec_lhs)
+	    		for reaction in reactions:
+	        		stoich = reactino.stoichiometry(spec)
 
-	        		if stoich == 0:
+	        		if (stoich == 0):
 	            			continue
 
-					# coefficient
+				# coefficient
 	        		line = []
 	        		prefix = ''
-	        		if stoich == 1:
+	        		
+	        		if (stoich == 1):
 	            			prefix = ''
-	        		elif stoich == -1:
+	        		elif (stoich == -1):
 	            			prefix = '-'
 	        		else:
 	            			prefix = str(stoich)
 
-					line.append(prefix)
-					line.append(str(reac.rate))
+				line.append(prefix)
+				line.append(str(reac.rate))
 
-					# exponents
-					for spec_rhs in species: #rhs indicates this species appears in a term of the equation
-						line.append(space)
-	        			line.append(str(reac.reactants.get(spec_rhs, 0)))
-	            		
-	            		species_block.append(''.join(line))
-	            		count += 1
+				# exponents
+				for reactant, coefficient in reaction.reactants.iteritems():
+					line.append(space)
+					line.append(str(reactant))
+					line.append(':')
+					line.append(str(coefficient))
+				
+				species_block.append(''.join(line))
+				count += 1
 	            	
 			# first line = species num_terms
 			line = []
-			line.append(str(s))
+			line.append(str(spec))
 			line.append(space)
 			line.append(str(count))
-			
 			to_print.append(''.join(line))
 			
 			#terms
@@ -148,12 +235,12 @@ class CRN:
 				to_print.append(''.join(line))
 
 		if filename:
-			f.open(filename, 'w')
+			f.open(file_name, 'w')
 		
 			for line in to_print:
 				f.write(line + '\n')
 
-	    	f.close()
+	    		f.close()
 
 		if console:
 			for line in to_print:
