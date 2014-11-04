@@ -114,7 +114,7 @@ class CRN:
 	# A + B -> C
 	# D -> E
 	# etc.
-	def crn_print( self, filename, console ):
+	def crn_print( self, file_name, console ):
 		to_print = []
 		for reaction in reactions:
 			line = []
@@ -150,8 +150,8 @@ class CRN:
 
 			to_print.append( ''.join(line) )
 
-		if( filename ):
-			f.open( filename, 'w' )
+		if( file_name ):
+			f.open( file_name, 'w' )
 			
 			for line in to_print:
 				f.write( line + '\n' )
