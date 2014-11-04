@@ -5,8 +5,8 @@ from Reaction import Reaction
 
 class CRN:
 	def __init__(self, gui_txt = None, readable_txt = None):
-		Species = Set()
-		reactions = Set()
+		self.Species = Set()
+		self.Reactions = Set()
 
 		if( gui_txt ):
 			self.from_gui( gui_txt )
@@ -35,13 +35,13 @@ class CRN:
 			f.close()
 			return
 		
-		species.update(set(line.split()))
+		self.Species.update( set( line.split() ) )
 		
 		# get species and num_terms
 		for i in range(num_species):
 			line = f.readline()
 			
-			if (not line[-1] == '\n'):
+			if line[-1] != '\n':
 				print('File format error')
 				f.close()
 				return
@@ -54,7 +54,7 @@ class CRN:
 			for j in range(num_terms):
 				line = f.readline()
 				
-				if (not line[-1] == '\n'):
+				if line[-1] != '\n':
 					print('File format error')
 					f.close()
 					return
@@ -78,12 +78,12 @@ class CRN:
 				product_dict = {}
 				
 				for reactant, coefficient in reactant_dict.iteritems():
-					if (not reactant == spec):
+					if reactant != spec:
 						product_dict[reactant] = coefficient
 				
 				coeff = reactant_dict.get(spec, 0)
 				
-				if (negative and coeff < 1):
+				if negative and coeff < 1:
 					print('Cannot convert this system to a CRN')
 					f.close()
 					return
@@ -93,11 +93,11 @@ class CRN:
 					product_dict[spec] = coeff + 1
 				
 				reaction = Reaction(rate, reactant_dict, product_dict)
-				reactions.add(reaction)
+				self.Reactions.add(reaction)
 		
 		line = f.readline()
 		
-		if (line):
+		if line:
 			print('File too long')
 		
 		f.close()
