@@ -20,7 +20,7 @@ class CRN:
 		# get number of species
 		line = f.readline()
 		
-		if (not line[-1] == '\n'):
+		if line[-1] != '\n':
 			print('File format error') # I want a better way to do error
 			f.close()		   # checking, but this will do for now
 			return
@@ -30,7 +30,7 @@ class CRN:
 		# get species
 		line = f.readline()
 		
-		if (not line[-1] == '\n'):
+		if line[-1] != '\n':
 			print('File format error')
 			f.close()
 			return
@@ -182,7 +182,7 @@ class CRN:
 		for spec in self.Species:
 			line.append(str(spec))
 			line.append(' ')
-			
+
 		to_print.append( ''.join(line).rstrip() )
 
 		# differential equations
