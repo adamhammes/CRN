@@ -144,13 +144,11 @@ class CRN:
 					first = False
 
 				line.append( plus_sign )
-				if coefficient != 1:
+				if coefficient != 1:	# Don't print the coefficient if it is 1
 					line.append( str( coefficient ) )
 				line.append( str( species ) )
 			
-			line.append(' (Reaction Rate = ')
-			line.append(str(reaction.rate))
-			line.append(')')
+			line.append(' at rate ' + str( reaction.rate ) )
 
 			to_print.append( ''.join(line) )
 
