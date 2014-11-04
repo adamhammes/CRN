@@ -4,7 +4,7 @@ from Reaction import Reaction
 
 
 class CRN:
-	def __init__(self, gui_txt, readable_txt):
+	def __init__(self, gui_txt = None, readable_txt = None):
 		Species = Set()
 		reactions = Set()
 
