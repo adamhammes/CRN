@@ -180,16 +180,10 @@ class CRN:
 		first = True
 
 		for spec in self.Species:
-			space = ' '
-			
-			if (first):
-				space = ''
-				first = False
-				
-			line.append(space)
 			line.append(str(spec))
-
-			to_print.append(''.join(line))
+			line.append(' ')
+			
+		to_print.append( ''.join(line).rstrip() )
 
 		# differential equations
 		for spec in self.Species:
