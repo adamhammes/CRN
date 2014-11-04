@@ -5,7 +5,7 @@ from Reaction import Reaction
 
 class CRN:
 	def __init__(self, gui_txt, readable_txt):
-		species = Set()
+		Species = Set()
 		reactions = Set()
 
 		if( gui_txt ):
@@ -17,6 +17,16 @@ class CRN:
 	def from_gui(self, file_name):
 		f = open( file_name, 'r' )
 		#TODO: read file, fill up species/reactions
+		lines = f.readlines()
+		species_list = lines[1].split(' ')
+		for word in species_list:
+			Species.add( word )
+
+		while	
+
+
+
+
 		f.close()
 
 	# Option to read from a more human-friendly format e.g.
