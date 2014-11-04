@@ -89,6 +89,8 @@ class CRN:
 					return
 				elif (negative):
 					product_dict[spec] = coeff - 1
+					if product_dict[spec] == 0:
+						del product_dict[spec]
 				else:
 					product_dict[spec] = coeff + 1
 				
@@ -136,8 +138,6 @@ class CRN:
 
 			first = True
 			for species, coefficient in reaction.products.iteritems():
-				if coefficient == 0:
-					continue
 				plus_sign = ' + '
 				if( first ):
 					plus_sign = ''
