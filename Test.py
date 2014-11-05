@@ -4,8 +4,8 @@ from Errors import FileFormatError
 def main():
 	try:
 		crn = CRN('testfile.txt')
-		crn.crn_print('crn_output.txt', False)
-		crn.diff_eq_print('diff_eq_output.txt', False)
+		crn.crn_print('crn_output.txt')
+		crn.diff_eq_print('diff_eq_output.txt')
 	except IOError as e:
 		print('IOError: ' + str(e))
 	except FileFormatError as e:
