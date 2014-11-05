@@ -5,8 +5,8 @@ from Errors import FileFormatError
 
 class CRN:
 	def __init__(self, diff_eq_txt = None, crn_txt = None):
-		self.species = Set()
-		self.reactions = Set()
+		self.Species = Set()
+		self.Reactions = Set()
 
 		if (diff_eq_txt):
 			self.from_diff_eq(diff_eq_txt)
@@ -34,9 +34,9 @@ class CRN:
 			raise FileFormatError('Species names missing.')
 			# if
 		
-		self.species.update(set(line.split()))
+		self.Species.update(set(line.split()))
 		
-		if (num_species != len(self.species)):
+		if (num_species != len(self.Species)):
 			f.close()
 			raise FileFormatError('Invalid number of species names.')
 			# if
@@ -79,7 +79,7 @@ class CRN:
 				for k in range(1, len(list)):
 					exp_list = list[k].split(':')
 					
-					if (exp_list[0] not in self.species):
+					if (exp_list[0] not in self.Species):
 						f.close()
 						raise FileFormatError('Invalid species.')
 						# if
@@ -108,7 +108,7 @@ class CRN:
 					# if
 				
 				reaction = Reaction(rate_coeff, rate_var, reactant_dict, product_dict)
-				self.reactions.add(reaction)
+				self.Reactions.add(reaction)
 				# for
 			# for
 		
@@ -219,14 +219,14 @@ class CRN:
 		
 		# first line = number of species
 		line = []
-		line.append(str(len(self.species)))
+		line.append(str(len(self.Species)))
 		to_print.append(''.join(line))
 		
 		# second line = list of species
 		line = []
 		first = True
 		
-		for spec in self.species:
+		for spec in self.Species:
 			space = ' '
 			
 			if (first):
@@ -241,12 +241,12 @@ class CRN:
 		to_print.append(''.join(line))
 		
 		# differential equations
-		for spec in self.species:
+		for spec in self.Species:
 			space = ' '
 			species_block = []
 			count = 0
 			
-			for reaction in self.reactions:
+			for reaction in self.Reactions:
 				stoich = reaction.stoichiometry(spec)
 				
 				if (stoich == 0):
