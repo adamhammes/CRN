@@ -22,7 +22,6 @@ class CRN:
 		if (line[-1] != '\n'):
 			f.close()
 			raise FileFormatError('Number of species missing.')
-			# if
 		
 		num_species = int(line.split()[0])
 		
@@ -32,14 +31,12 @@ class CRN:
 		if (line[-1] != '\n'):
 			f.close()
 			raise FileFormatError('Species names missing.')
-			# if
 		
-		self.Species.update(set(line.split()))
+		self.Species.update( line.split() )
 		
 		if (num_species != len(self.Species)):
 			f.close()
 			raise FileFormatError('Invalid number of species names.')
-			# if
 		
 		# get species and num_terms
 		for i in range(num_species):
@@ -48,7 +45,6 @@ class CRN:
 			if (line[-1] != '\n'):
 				f.close()
 				raise FileFormatError('Species header missing.')
-				# if
 			
 			list = line.split()
 			spec = list[0]
@@ -61,7 +57,6 @@ class CRN:
 				if (j != num_terms - 1 and line[-1] != '\n'):
 					f.close()
 					raise FileFormatError('Term missing.')
-					# if
 				
 				list = line.split()
 				
@@ -82,10 +77,8 @@ class CRN:
 					if (exp_list[0] not in self.Species):
 						f.close()
 						raise FileFormatError('Invalid species.')
-						# if
 						
 					reactant_dict[exp_list[0]] = int(exp_list[1])
-					# for
 				
 				# products
 				product_dict = {}
@@ -93,8 +86,6 @@ class CRN:
 				for reactant, coefficient in reactant_dict.iteritems():
 					if (reactant != spec):
 						product_dict[reactant] = coefficient
-						# if
-					# for
 				
 				coeff = reactant_dict.get(spec, 0)
 				
@@ -105,19 +96,17 @@ class CRN:
 					product_dict[spec] = coeff - 1
 				elif (not negative):
 					product_dict[spec] = coeff + 1
-					# if
+
 				
 				reaction = Reaction(rate_coeff, rate_var, reactant_dict, product_dict)
 				self.Reactions.add(reaction)
-				# for
-			# for
+
 		
 		line = f.readline()
 		
 		if (line):
 			f.close()
 			raise FileFormatError('File too long.')
-			# if
 		
 		f.close()
 
@@ -149,16 +138,13 @@ class CRN:
 				if (first):			# if we are printing our first species...
 					plus_sign = '' 	# just print an empty string instead of a plus
 					first = False
-					# if
 
 				line.append(plus_sign)
 				
 				if (coefficient != 1):
 					line.append(str(coefficient))
-					# if
 					
 				line.append(str(species))
-				# for
 
 			line.append( ' -> ' )
 			first = True
@@ -170,23 +156,19 @@ class CRN:
 				if (first):
 					plus_sign = ''
 					first = False
-					# if
 
 				line.append(plus_sign)
 				
 				if (coefficient != 1):	# Don't print the coefficient if it is 1
 					line.append(str(coefficient))
-					# if
 					
 				line.append(str(species))
-				# for
 			
 			# reaction rate
 			line.append(' (Reaction Rate = ')
 			
 			if (reaction.rate_coeff != 1):
 				line.append(str(reaction.rate_coeff))
-				# if
 			
 			line.append('[')
 			line.append(str(reaction.rate_var))
@@ -194,23 +176,19 @@ class CRN:
 			
 			# full reaction
 			to_print.append(''.join(line))
-			# for
 
 		if (file_name):
 			output = open(file_name, 'w')
 			
 			for line in to_print:
 				output.write(line + '\n')
-				# for
 				
 			output.close()
-			# if
 
 		if(console):
 			for line in to_print:
 				print(line)
-				# for
-			# if
+
 	
 	# Prints the differential equations which describe the behavior of
 	# this CRN to the console
@@ -232,11 +210,9 @@ class CRN:
 			if (first):
 				space = ''
 				first = False
-				# if
 			
 			line.append(space)
 			line.append(str(spec))
-			# for
 		
 		to_print.append(''.join(line))
 		
@@ -251,7 +227,6 @@ class CRN:
 				
 				if (stoich == 0):
 					continue
-					# if
 				
 				# coefficient
 				line = []				
@@ -266,11 +241,9 @@ class CRN:
 					line.append(str(reactant))
 					line.append(':')
 					line.append(str(coefficient))
-					# for
 				
 				species_block.append(''.join(line))
 				count += 1
-				# for
 			
 			# first line = species_name num_terms
 			line = []
@@ -282,21 +255,15 @@ class CRN:
 			# terms
 			for line in species_block:
 				to_print.append(''.join(line))
-				# for
-			# for
 		
 		if (file_name):
 			output = open(file_name, 'w')
 			
 			for line in to_print:
 				output.write(line + '\n')
-				# for
 			
 			output.close()
-			# if
 		
 		if (console):
 			for line in to_print:
 				print(line)
-				# for
-			# if
