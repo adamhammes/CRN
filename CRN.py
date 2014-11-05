@@ -196,9 +196,7 @@ class CRN:
 		to_print = []
 		
 		# first line = number of species
-		line = []
-		line.append(str(len(self.Species)))
-		to_print.append(''.join(line))
+		to_print.append( str( len( self.Species ) ) )
 		
 		# second line = list of species
 		line = []
