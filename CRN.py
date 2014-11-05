@@ -176,12 +176,9 @@ class CRN:
 			to_print.append(''.join(line))
 
 		if (file_name):
-			output = open(file_name, 'w')
-			
-			for line in to_print:
-				output.write(line + '\n')
-				
-			output.close()
+			with open( file_name, 'w' ) as output:
+				for line in to_print:
+					output.write(line + '\n')
 
 		if(console):
 			for line in to_print:
@@ -242,12 +239,9 @@ class CRN:
 				to_print.append(''.join(line))
 		
 		if (file_name):
-			output = open(file_name, 'w')
-			
-			for line in to_print:
-				output.write(line + '\n')
-			
-			output.close()
+			with open( file_name, 'w' ) as output:
+				for line in to_print:
+					output.write(line + '\n')
 		
 		if (console):
 			for line in to_print:
