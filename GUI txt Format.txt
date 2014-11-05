@@ -1,8 +1,8 @@
 # species
 species1 species2 species3
 name_of_species num_terms // 1st differential equation
-rate_constant1 species:exponent species:exponent ... // term1
-rate_constant2 species:exponent species:exponent
+rate_coeff1:rate_var1 species:exponent species:exponent ... // term1
+rate_coeff2:rate_var2 species:exponent species:exponent
 name_of_species num_terms // 2nd differential equation
 .
 .
