@@ -1,10 +1,11 @@
 
 class Reaction:
 
-	def __init__(self, rate, reactants, products):
-		self.rate = rate
+	def __init__(self, rate_coeff, rate_var, reactants, products):
+		self.rate_coeff = rate_coeff
+		self.rate_var = rate_var
 		self.reactants = reactants
 		self.products = products
 	
 	def stoichiometry(self, species):
-		return products.get(species, 0) - reactants.get(species, 0)
+		return self.products.get(species, 0) - self.reactants.get(species, 0)
