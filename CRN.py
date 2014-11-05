@@ -70,7 +70,7 @@ class CRN:
 				
 				# rate
 				rate_list = list[0].split(':')
-				rate_coeff = int(rate_list[0].strip('-')
+				rate_coeff = int( rate_list[0].strip('-') )
 				rate_var = rate_list[1]
 				
 				# reactants
