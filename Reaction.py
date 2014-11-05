@@ -7,4 +7,4 @@ class Reaction:
 		self.products = products
 	
 	def stoichiometry(self, species):
-		return products.get(species, 0) - reactants.get(species, 0)
+		return self.products.get(species, 0) - self.reactants.get(species, 0)
