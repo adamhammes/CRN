@@ -14,7 +14,11 @@ class CRN:
 	# This should follow the specifications we discussed Monday
 	# .txt created straight from GUI
 	def from_diff_eq(self, file_name):
-		f = open(file_name, 'r')
+		try:
+			f = open(file_name, 'r')
+		except IOError as e:
+			print( e )
+			return
 		
 		# get number of species
 		line = f.readline()
@@ -176,9 +180,12 @@ class CRN:
 			to_print.append(''.join(line))
 
 		if (file_name):
-			with open( file_name, 'w' ) as output:
-				for line in to_print:
-					output.write(line + '\n')
+			try:
+				with open( file_name, 'w' ) as output:
+					for line in to_print:
+						output.write(line + '\n')
+			except IOError as e:
+				print(e)
 
 		if(console):
 			for line in to_print:
@@ -239,9 +246,12 @@ class CRN:
 				to_print.append(''.join(line))
 		
 		if (file_name):
-			with open( file_name, 'w' ) as output:
-				for line in to_print:
-					output.write(line + '\n')
+			try:
+				with open( file_name, 'w' ) as output:
+					for line in to_print:
+						output.write(line + '\n')
+			except IOError as e:
+				print('IOError: ' + e)
 		
 		if (console):
 			for line in to_print:
