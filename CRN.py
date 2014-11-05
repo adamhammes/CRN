@@ -8,7 +8,7 @@ class CRN:
 		self.Species = Set()
 		self.Reactions = Set()
 
-		if (diff_eq_txt):
+		if diff_eq_txt:
 			self.from_diff_eq(diff_eq_txt)
 
 	# This should follow the specifications we discussed Monday
@@ -23,7 +23,7 @@ class CRN:
 		# get number of species
 		line = f.readline()
 		
-		if (line[-1] != '\n'):
+		if line[-1] != '\n':
 			f.close()
 			raise FileFormatError('Number of species missing.')
 		
@@ -32,13 +32,13 @@ class CRN:
 		# get species
 		line = f.readline()
 		
-		if (line[-1] != '\n'):
+		if line[-1] != '\n':
 			f.close()
 			raise FileFormatError('Species names missing.')
 		
 		self.Species.update( line.split() )
 		
-		if (num_species != len(self.Species)):
+		if num_species != len(self.Species):
 			f.close()
 			raise FileFormatError('Invalid number of species names.')
 		
@@ -46,7 +46,7 @@ class CRN:
 		for i in range(num_species):
 			line = f.readline()
 			
-			if (line[-1] != '\n'):
+			if line[-1] != '\n':
 				f.close()
 				raise FileFormatError('Species header missing.')
 			
@@ -58,7 +58,7 @@ class CRN:
 			for j in range(num_terms):
 				line = f.readline()
 				
-				if (j != num_terms - 1 and line[-1] != '\n'):
+				if j != num_terms - 1 and line[-1] != '\n':
 					f.close()
 					raise FileFormatError('Term missing.')
 				
@@ -78,7 +78,7 @@ class CRN:
 				for k in range(1, len(list)):
 					exp_list = list[k].split(':')
 					
-					if (exp_list[0] not in self.Species):
+					if exp_list[0] not in self.Species:
 						f.close()
 						raise FileFormatError('Invalid species.')
 						
@@ -88,17 +88,17 @@ class CRN:
 				product_dict = {}
 				
 				for reactant, coefficient in reactant_dict.iteritems():
-					if (reactant != spec):
+					if reactant != spec:
 						product_dict[reactant] = coefficient
 				
 				coeff = reactant_dict.get(spec, 0)
 				
-				if (negative and coeff < 1):
+				if negative and coeff < 1:
 					f.close()
 					raise FileFormatError('Illegal differential equation.')
-				elif (negative and coeff > 1):
+				elif negative and coeff > 1:
 					product_dict[spec] = coeff - 1
-				elif (not negative):
+				else:
 					product_dict[spec] = coeff + 1
 
 				
@@ -108,7 +108,7 @@ class CRN:
 		
 		line = f.readline()
 		
-		if (line):
+		if line:
 			f.close()
 			raise FileFormatError('File too long.')
 		
@@ -139,13 +139,13 @@ class CRN:
 			for species, coefficient in reaction.reactants.iteritems():
 				plus_sign = ' + '
 				
-				if (first):			# if we are printing our first species...
+				if first:			# if we are printing our first species...
 					plus_sign = '' 	# just print an empty string instead of a plus
 					first = False
 
 				line.append(plus_sign)
 				
-				if (coefficient != 1):
+				if coefficient != 1:
 					line.append(str(coefficient))
 					
 				line.append(str(species))
@@ -157,13 +157,13 @@ class CRN:
 			for species, coefficient in reaction.products.iteritems():
 				plus_sign = ' + '
 				
-				if (first):
+				if first:
 					plus_sign = ''
 					first = False
 
 				line.append(plus_sign)
 				
-				if (coefficient != 1):	# Don't print the coefficient if it is 1
+				if coefficient != 1:	# Don't print the coefficient if it is 1
 					line.append(str(coefficient))
 					
 				line.append(str(species))
@@ -171,7 +171,7 @@ class CRN:
 			# reaction rate
 			line.append(' at rate ')
 			
-			if (reaction.rate_coeff != 1):
+			if reaction.rate_coeff != 1:
 				line.append( str(reaction.rate_coeff) + '*')
 			
 			line.append( reaction.rate_var )
@@ -179,7 +179,7 @@ class CRN:
 			# full reaction
 			to_print.append(''.join(line))
 
-		if (file_name):
+		if file_name:
 			try:
 				with open( file_name, 'w' ) as output:
 					for line in to_print:
@@ -187,7 +187,7 @@ class CRN:
 			except IOError as e:
 				print(e)
 
-		if(console):
+		if console:
 			for line in to_print:
 				print(line)
 
@@ -218,7 +218,7 @@ class CRN:
 			for reaction in self.Reactions:
 				stoich = reaction.stoichiometry(spec)
 				
-				if (stoich == 0):
+				if stoich == 0:
 					continue
 				
 				# coefficient
@@ -245,7 +245,7 @@ class CRN:
 			for line in species_block:
 				to_print.append(''.join(line))
 		
-		if (file_name):
+		if file_name:
 			try:
 				with open( file_name, 'w' ) as output:
 					for line in to_print:
@@ -253,6 +253,6 @@ class CRN:
 			except IOError as e:
 				print('IOError: ' + e)
 		
-		if (console):
+		if console:
 			for line in to_print:
 				print(line)
