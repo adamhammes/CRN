@@ -165,14 +165,12 @@ class CRN:
 				line.append(str(species))
 			
 			# reaction rate
-			line.append(' (Reaction Rate = ')
+			line.append(' at rate ')
 			
 			if (reaction.rate_coeff != 1):
-				line.append(str(reaction.rate_coeff))
+				line.append( str(reaction.rate_coeff) + '*')
 			
-			line.append('[')
-			line.append(str(reaction.rate_var))
-			line.append('])')
+			line.append( reaction.rate_var )
 			
 			# full reaction
 			to_print.append(''.join(line))
