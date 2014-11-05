@@ -202,17 +202,10 @@ class CRN:
 		line = []
 		first = True
 		
-		for spec in self.Species:
-			space = ' '
-			
-			if (first):
-				space = ''
-				first = False
-			
-			line.append(space)
-			line.append(str(spec))
+		for spec in self.Species:			
+			line.append( spec + ' ' )
 		
-		to_print.append(''.join(line))
+		to_print.append( ''.join(line).rstrip() )
 		
 		# differential equations
 		for spec in self.Species:
@@ -244,11 +237,7 @@ class CRN:
 				count += 1
 			
 			# first line = species_name num_terms
-			line = []
-			line.append(str(spec))
-			line.append(space)
-			line.append(str(count))
-			to_print.append(''.join(line))
+			to_print.append( spec + ' ' + str(count) )
 			
 			# terms
 			for line in species_block:
