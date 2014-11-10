@@ -1,12 +1,11 @@
 from __future__ import print_function # allows us to easily print to the same line twice
-from sets import Set
 from Reaction import Reaction
 from Errors import FileFormatError
 
 class CRN:
 	def __init__(self, diff_eq_txt = None, crn_txt = None):
-		self.Species = Set()
-		self.Reactions = Set()
+		self.Species = set()
+		self.Reactions = set()
 
 		if diff_eq_txt:
 			self.from_diff_eq(diff_eq_txt)
