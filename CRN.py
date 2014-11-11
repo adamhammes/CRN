@@ -19,6 +19,7 @@ class CRN:
 		if not f:
 			return
 
+		to_print = []
 		lines = []
 		for line in f:
 			stripped = line.strip()
@@ -38,6 +39,31 @@ class CRN:
 				i += 1
 
 			self.Species.add( string )
+
+		to_print.add( str( len( self.Species ) ) )
+		string = ''
+		for species in self.Species:
+			string += species
+			string += ' '
+		to_print.add( string.rstrip() )
+
+		for line in lines:
+			var, terms = line.split( '=' )
+			terms.strip()
+
+			terms.replace( ' ', '' )
+			terms.replace( '+', ' +' )
+			terms.replace( '-', ' -' )
+
+			terms = terms.split( ' ' )
+			if terms[0][0] != '-':
+				terms[0] = '+' + terms[0]
+
+			# Now terms hold each term with no whitespace
+			# and with a +/- in front 
+
+			for term in terms:
+
 
 
 
