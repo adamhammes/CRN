@@ -3,22 +3,52 @@ from Reaction import Reaction
 from Errors import FileFormatError
 
 class CRN:
-	def __init__(self, diff_eq_txt = None, crn_txt = None):
+	def __init__(self, diff_eq_txt = None, crn_txt = None, eq_text = None):
 		self.Species = set()
 		self.Reactions = set()
 
 		if diff_eq_txt:
 			self.from_diff_eq(diff_eq_txt)
 
+		if eq_text:
+			self.from_equations( eq_text )
+
+
+	def from_equations( self, file_name ):
+		f = self.safe_open( file_name )
+		if not f:
+			return
+
+		lines = []
+		for line in f:
+			stripped = line.strip()
+			if stripped:
+				lines.append( stripped )
+
+		f.close()
+
+		# pull all the species from the left side of the equation
+		for line in lines:
+			var, terms = line.split( '=' )
+			var.strip()
+			string = ''
+			i = 0
+			while var[i].isalpha():
+				string += var[i]
+				i += 1
+
+			self.Species.add( string )
+
+
+
+
 	# This should follow the specifications we discussed Monday
 	# .txt created straight from GUI
 	def from_diff_eq(self, file_name):
-		try:
-			f = open(file_name, 'r')
-		except IOError as e:
-			print( e )
+		f = self.safe_open( file_name )
+		if not f:
 			return
-		
+
 		# get number of species
 		line = f.readline()
 		
@@ -178,17 +208,7 @@ class CRN:
 			# full reaction
 			to_print.append(''.join(line))
 
-		if file_name:
-			try:
-				with open( file_name, 'w' ) as output:
-					for line in to_print:
-						output.write(line + '\n')
-			except IOError as e:
-				print(e)
-
-		if console:
-			for line in to_print:
-				print(line)
+		self.array_print( to_print, file_name, console)
 
 	
 	# Prints the differential equations which describe the behavior of
@@ -243,7 +263,19 @@ class CRN:
 			# terms
 			for line in species_block:
 				to_print.append(''.join(line))
+
+			self.array_print( to_print, file_name, console)
 		
+
+	def safe_open( self, file_name ):
+		try:
+			f = open(file_name, 'r')
+		except IOError as e:
+			print( e )
+			return None
+		return f
+
+	def array_print( self, to_print, file_name, console ):
 		if file_name:
 			try:
 				with open( file_name, 'w' ) as output:
