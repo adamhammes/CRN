@@ -3,9 +3,9 @@ from Errors import FileFormatError
 
 def main():
 	try:
-		crn = CRN('testfile.txt')
-		crn.crn_print('crn_output.txt')
-		crn.diff_eq_print('diff_eq_output.txt')
+		crn = CRN( eq_text = 'equations.txt' )
+		for spec in crn.Species:
+			print( spec )
 	except FileFormatError as e:
 		print('FileFormatError: ' + str(e))
 
