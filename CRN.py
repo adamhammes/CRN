@@ -1,6 +1,12 @@
 from __future__ import print_function # allows us to easily print to the same line twice
+from __future__ import unicode_literals
 from Reaction import Reaction
 from Errors import FileFormatError
+import re
+
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 class CRN:
 	def __init__(self, diff_eq_txt = None, crn_txt = None, eq_text = None):
@@ -40,30 +46,69 @@ class CRN:
 
 			self.Species.add( string )
 
-		to_print.add( str( len( self.Species ) ) )
+		to_print.append( str( len( self.Species ) ) )
 		string = ''
 		for species in self.Species:
 			string += species
 			string += ' '
-		to_print.add( string.rstrip() )
+		to_print.append( string.rstrip() )
 
 		for line in lines:
 			var, terms = line.split( '=' )
 			terms.strip()
 
-			terms.replace( ' ', '' )
-			terms.replace( '+', ' +' )
-			terms.replace( '-', ' -' )
+			var.strip()	
+			string = ''
+			i = 0
+			while var[i].isalpha():
+				string += var[i]
+				i += 1
 
-			terms = terms.split( ' ' )
-			if terms[0][0] != '-':
+			terms = terms.replace( ' ', '' )
+			terms = terms.replace( '+', ' +' )
+			terms = terms.replace( '-', ' -' )
+
+			terms = terms.split()
+			if not terms[0].startswith( '-' ):
 				terms[0] = '+' + terms[0]
+
+			if string not in self.Species:
+				raise FileFormatError( "Invalid species name" )
+				return
+			else:
+				to_print.append( string + ' ' + str( len( terms ) ) )
+
 
 			# Now terms hold each term with no whitespace
 			# and with a +/- in front 
 
+			
 			for term in terms:
+				to_add = []
+				# optional plus or minus, any number of digits, single character 
+				# variable name, optional underscore+ single character subscript
+				rate_re = re.compile( r'''
+					(
+						[+-]?			# optional sign character
+						\d*				# any number (including 0) digits
+						[^\W\d_](_\w)?	# a non-numerical digit with an optional subscript
+					)
+					''', re.VERBOSE | re.UNICODE )
 
+				# optional +/-, any number of digits
+				number_re = re.compile( '[+-]\d*')
+
+				rate_constant = rate_re.match( term ).group()
+				number_match = number_re.match( rate_constant )
+
+				if not number_match:
+					to_add.append( '1:' + rate_constant )
+					exp_term = term
+				else:
+					num = number_match.group()
+					name = rate_constant[number_match.end():]
+					to_add.append( num + ':' + name )
+					exp_terms = term[len( number_match.group() )]
 
 
 
