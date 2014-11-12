@@ -1,0 +1,111 @@
+<!-- Diff Eq to CRN Converter -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Differential Equation to CRN Converter</title>
+</head>
+
+<style>
+html, body
+{
+	height: 100%;
+	width: 100%;
+	margin: 0;
+}
+div
+{
+	height: 100%;
+	width: 100%;
+}
+section
+{
+	width: 49%;
+	float: left;
+	padding: 5px;
+}
+aside
+{
+	width: 45%;
+	float: right;
+	padding: 5px;
+}
+textarea
+{
+	width: 100%;
+	font-family: "Courier New", courier, sans-serif;
+}
+</style>
+
+<body>
+	
+	<p>
+		<!-- Code for Button goes here. -->
+	</p>
+	
+	<p>
+		<center><h1>Differential Equation to CRN Converter</h1></center>
+	</p>
+	
+	<p>
+		<center>
+		<justify>
+		Please enter each differential equation on a separate line with the
+		affected species on the left side of the equation. Powers greater than 1
+		should be denoted with a carat (^), and each species name must be a single
+		character, possibly followed by a nonnegative numeric index using an
+		underscore (_). Non-numeric term coefficients must be a single character
+		and must not clash with a defined species name.
+		</justify>
+		</center>
+	</p>
+	
+	<section>
+		<p>
+			<form>
+				System of Differential Equations:<br/>
+				<textarea id="diffEqText" rows="10" wrap="soft"></textarea><br/>
+				<input id="convertButton" type="submit" name="Convert" value="Convert" />
+			</form>
+			<br/>
+			<form>
+				Chemical Reaction Network:<br/>
+				<textarea id="crnText" rows="10" wrap="soft" disabled></textarea>
+			</form>
+		</p>
+	</section>
+	
+	<aside>
+		<p>		
+			Example input:<br/>
+			
+			<font face="courier">
+			X_0' = -aX_0^2P + bX_1^2P + -cX_0X_1P + -dX_0^2M<br/>
+			X_1' = -2bX_1^2P + -eX_1^2M + -fX_0X_1M<br/>
+			P' = -aX_0^2P + -bX_1^2P + -cX_0X_1P<br/>
+			M' = -dX_0^2M + -eX_1^2M + -fX_0X_1M<br/>
+			</font>
+			<br/>
+		
+			Example output:<br/>
+			<font face="courier">
+			2X_0 + P -> X_0 + P at rate a<br/>
+			2X_1 + P -> X_0 + 2X_1 + P at rate b<br/>
+			X_0 + X_1 + P -> X_1 + P at rate c<br/>
+			2X_0 + M -> X_0 + M at rate d<br/>
+			2X_1 + P -> X_1 + P at rate 2*b<br/>
+			2X_1 + M -> X_1 + M at rate e<br/>
+			X_0 + X_1 + M -> X_0 + M at rate f<br/>
+			2X_0 + P -> 2X_0 at rate a<br/>
+			2X_1 + P -> 2X_1 at rate b<br/>
+			X_0 + X_1 + P -> X_0 + X_1 at rate c<br/>
+			2X_0 + M -> 2X_0 at rate d<br/>
+			2X_1 + M -> 2X_1 at rate e<br/>
+			X_0 + X_1 + M -> X_0 + X_1 at rate f
+			</font>
+		</p>
+	</aside>
+
+</body>
+</html>
