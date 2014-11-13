@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from Reaction import Reaction
 from Errors import FileFormatError
 import re
+import os
 
 import sys
 reload(sys)
@@ -88,27 +89,49 @@ class CRN:
 				# optional plus or minus, any number of digits, single character 
 				# variable name, optional underscore+ single character subscript
 				rate_re = re.compile( r'''
-					(
-						[+-]?			# optional sign character
-						\d*				# any number (including 0) digits
-						[^\W\d_](_\w)?	# a non-numerical digit with an optional subscript
-					)
+						([+-]?\d*)
+						([^\W\d_])
+						(_\d+)?
 					''', re.VERBOSE | re.UNICODE )
 
-				# optional +/-, any number of digits
-				number_re = re.compile( '[+-]\d*')
+				match = rate_re.match( term )
+				coeff = match.group(1)
+				var = match.group(2)
+				sub = match.group(3)
 
-				rate_constant = rate_re.match( term ).group()
-				number_match = number_re.match( rate_constant )
+				if len( coeff ) <= 1:
+					coeff = '1'
+				elif coeff == '-':
+					coeff = '-1'
 
-				if not number_match:
-					to_add.append( '1:' + rate_constant )
-					exp_term = term
-				else:
-					num = number_match.group()
-					name = rate_constant[number_match.end():]
-					to_add.append( num + ':' + name )
-					exp_terms = term[len( number_match.group() )]
+				if coeff.startswith( '+' ):
+					coeff = coeff[1:]
+
+				if not sub:
+					sub = ''
+
+				to_add.append( '%s:%s%s' %(coeff, var, sub ) )
+				exp_term = term[match.end():]
+
+
+				exps_re = re.compile( r'''
+					([^\W\d_])
+					(?:_(\d+))?
+					(?:\^(\d+))?
+					''', re.VERBOSE | re.UNICODE )
+
+				entries = re.findall( exps_re, exp_term )
+				for entry in entries:
+					exp = entry[2]
+					if not exp:
+						exp = '1'
+					to_add += ' %s%s:%s' %(entry[0], entry[1], exp)
+
+				to_print.append( ''.join( to_add ) )
+
+		self.array_print( to_print, file_name = 'temp.txt' )
+		self.from_diff_eq( 'temp.txt' )
+		os.remove( 'temp.txt' )
 
 
 
@@ -272,9 +295,7 @@ class CRN:
 			line.append(' at rate ')
 			
 			if reaction.rate_coeff != 1:
-				line.append( str(reaction.rate_coeff) + '*')
-			
-			line.append( reaction.rate_var )
+				line.append( str(reaction.rate_coeff) + reaction.rate_var )
 			
 			# full reaction
 			to_print.append(''.join(line))
@@ -346,7 +367,7 @@ class CRN:
 			return None
 		return f
 
-	def array_print( self, to_print, file_name, console ):
+	def array_print( self, to_print, file_name = None, console = None ):
 		if file_name:
 			try:
 				with open( file_name, 'w' ) as output:
