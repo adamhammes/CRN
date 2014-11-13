@@ -110,7 +110,7 @@ class CRN:
 
 				exps_re = re.compile( r'''
 					([^\W\d_])
-					(?:_(\d+))?
+					(?:(_\d+))?
 					(?:\^(\d+))?
 					''', re.VERBOSE | re.UNICODE )
 
