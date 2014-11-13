@@ -285,37 +285,24 @@ class CRN:
 			# we don't want to print something like this : ' + A + B -> C'
 			
 			# reactants
+			side = []
 			for species, coefficient in reaction.reactants.iteritems():
-				plus_sign = ' + '
-				
-				if first:			# if we are printing our first species...
-					plus_sign = '' 	# just print an empty string instead of a plus
-					first = False
-
-				line.append(plus_sign)
-				
+				side.append(species)
 				if coefficient != 1:
-					line.append(str(coefficient))
-					
-				line.append(str(species))
+					side[-1] = str(coefficient) + side[-1]	
 
+			line.append( ' + '.join(side))
 			line.append( ' -> ' )
 			first = True
 			
 			# products
+			side = []
 			for species, coefficient in reaction.products.iteritems():
-				plus_sign = ' + '
-				
-				if first:
-					plus_sign = ''
-					first = False
+				side.append(species)
+				if coefficient != 1:
+					side[-1] = str(coefficient) + side[-1]	
 
-				line.append(plus_sign)
-				
-				if coefficient != 1:	# Don't print the coefficient if it is 1
-					line.append(str(coefficient))
-					
-				line.append(str(species))
+			line.append( ' + '.join(side))
 			
 			# reaction rate
 			line.append(' at rate ')
