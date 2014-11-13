@@ -36,8 +36,19 @@ class CRN:
 		f.close()
 
 		# pull all the species from the left side of the equation
-		for line in lines:
+
+		for line_num, line in enumerate(lines):
+			if line.find('=') == -1:
+				raise FileFormatError('Line %d is not an equation' %(line_num))
+
 			var_re = re.compile( '([^\W\d_](_\d+)?)', re.UNICODE )
+			match = var_re.match(line)
+
+			if not match:
+				raise FileFormatError( "Illegal species name - left side of line " + str( line_num + 1 ) )
+				Species.clear()
+				return
+
 			spec = var_re.match( line ).group()
 			self.Species.add( spec )
 
@@ -48,14 +59,18 @@ class CRN:
 			string += ' '
 		to_print.append( string.rstrip() )
 
-		for line in lines:
+		for line_num, line in enumerate(lines):
 			var, terms = line.split( '=' )
 			terms.strip()
 
 			var.strip()	
 			
 			variable_re = re.compile( '([^\W\d_](_\d+)?)', re.UNICODE )
-			spec = variable_re.match( line ).group()
+			match = variable_re.match( line )
+			if not match:
+				raise FileFormatError( "Illegal species name - left side of line " + str( line_num + 1 ) )
+				return
+			spec = match.group()
 
 			terms = terms.replace( ' ', '' )
 			terms = terms.replace ('+-', '-' )
@@ -68,7 +83,7 @@ class CRN:
 				terms[0] = '+' + terms[0]
 
 			if spec not in self.Species:
-				raise FileFormatError( "Invalid species name" )
+				raise FileFormatError( "Species not in CRN- left side of line " + str( line_num )  )
 				return
 			else:
 				to_print.append( spec + ' ' + str( len( terms ) ) )
@@ -77,8 +92,8 @@ class CRN:
 			# Now terms hold each term with no whitespace
 			# and with a +/- in front 
 
-			
-			for term in terms:
+			term_num = 1
+			for term_num, term in enumerate(terms):
 				to_add = []
 				# optional plus or minus, any number of digits, single character 
 				# variable name, optional underscore+ single character subscript
@@ -89,9 +104,19 @@ class CRN:
 					''', re.VERBOSE | re.UNICODE )
 
 				match = rate_re.match( term )
+
+				if not match:
+					raise FileFormatError( 'Illegal term, line %d term %d ' %(line_num, term_num) )
+					return
+
 				coeff = match.group(1)
-				var = match.group(2)
+				variable = match.group(2)
 				sub = match.group(3)
+
+				if not sub:
+					sub = ''
+
+				rate_constant = str(variable + sub)
 
 				if len( coeff ) <= 1:
 					coeff = '1'
@@ -101,10 +126,8 @@ class CRN:
 				if coeff.startswith( '+' ):
 					coeff = coeff[1:]
 
-				if not sub:
-					sub = ''
 
-				to_add.append( '%s:%s%s' %(coeff, var, sub ) )
+				to_add.append( '%s:%s%s' %(coeff, variable, sub ) )
 				exp_term = term[match.end():]
 
 
@@ -116,12 +139,21 @@ class CRN:
 
 				entries = re.findall( exps_re, exp_term )
 				for entry in entries:
+					if not entry:
+						raise FileFormatError( 'Invalid term - line %d term %d' (line_num, term_num))
+
+					spec = entry[0] + entry[1]
+					if spec not in self.Species:
+						raise FileFormatError( 'Species \'%s\' not in CRN- line %d term %d' %(spec, line_num, term_num ))
+
 					exp = entry[2]
 					if not exp:
 						exp = '1'
 					to_add += ' %s%s:%s' %(entry[0], entry[1], exp)
 
 				to_print.append( ''.join( to_add ) )
+				term_num += 1
+			line_num += 1
 
 		self.array_print( to_print, file_name = 'temp.txt' )
 		self.from_diff_eq( 'temp.txt' )
