@@ -289,7 +289,8 @@ class CRN:
 			line.append(' at rate ')
 			
 			if reaction.rate_coeff != 1:
-				line.append( str(reaction.rate_coeff) + reaction.rate_var )
+				line.append( str(reaction.rate_coeff) )
+			line.append( reaction.rate_var )
 			
 			# full reaction
 			to_print.append(''.join(line))
