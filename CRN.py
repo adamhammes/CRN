@@ -54,8 +54,8 @@ class CRN:
 
 			var.strip()	
 			
-			var_re = re.compile( '([^\W\d_](_\d+)?)', re.UNICODE )
-			spec = var_re.match( line ).group()
+			variable_re = re.compile( '([^\W\d_](_\d+)?)', re.UNICODE )
+			spec = variable_re.match( line ).group()
 
 			terms = terms.replace( ' ', '' )
 			terms = terms.replace ('+-', '-' )
