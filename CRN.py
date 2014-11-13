@@ -37,15 +37,9 @@ class CRN:
 
 		# pull all the species from the left side of the equation
 		for line in lines:
-			var, terms = line.split( '=' )
-			var.strip()
-			string = ''
-			i = 0
-			while var[i].isalpha():
-				string += var[i]
-				i += 1
-
-			self.Species.add( string )
+			var_re = re.compile( '([^\W\d_](_\d+)?)', re.UNICODE )
+			spec = var_re.match( line ).group()
+			self.Species.add( spec )
 
 		to_print.append( str( len( self.Species ) ) )
 		string = ''
@@ -59,13 +53,13 @@ class CRN:
 			terms.strip()
 
 			var.strip()	
-			string = ''
-			i = 0
-			while var[i].isalpha():
-				string += var[i]
-				i += 1
+			
+			var_re = re.compile( '([^\W\d_](_\d+)?)', re.UNICODE )
+			spec = var_re.match( line ).group()
 
 			terms = terms.replace( ' ', '' )
+			terms = terms.replace ('+-', '-' )
+			terms = terms.replace ('-+', '-' )
 			terms = terms.replace( '+', ' +' )
 			terms = terms.replace( '-', ' -' )
 
@@ -73,11 +67,11 @@ class CRN:
 			if not terms[0].startswith( '-' ):
 				terms[0] = '+' + terms[0]
 
-			if string not in self.Species:
+			if spec not in self.Species:
 				raise FileFormatError( "Invalid species name" )
 				return
 			else:
-				to_print.append( string + ' ' + str( len( terms ) ) )
+				to_print.append( spec + ' ' + str( len( terms ) ) )
 
 
 			# Now terms hold each term with no whitespace
