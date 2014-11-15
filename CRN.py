@@ -10,6 +10,16 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 
 class CRN:
+	class Reaction:
+		def __init__(self, rate_coeff, rate_var, reactants, products):
+			self.rate_coeff = rate_coeff
+			self.rate_var = rate_var
+			self.reactants = reactants
+			self.products = products
+		
+		def stoichiometry(self, species):
+			return self.products.get(species, 0) - self.reactants.get(species, 0)
+
 	def __init__(self, diff_eq_txt = None, crn_txt = None, eq_text = None):
 		self.Species = set()
 		self.Reactions = set()
