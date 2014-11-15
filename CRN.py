@@ -155,71 +155,66 @@ class CRN:
 				term_num += 1
 			line_num += 1
 
-		self.array_print( to_print, file_name = 'temp.txt' )
-		self.from_diff_eq( 'temp.txt' )
-		os.remove( 'temp.txt' )
+		self.from_diff_eq( to_print )
 
 
 
 
 	# This should follow the specifications we discussed Monday
 	# .txt created straight from GUI
-	def from_diff_eq(self, file_name):
-		f = self.safe_open( file_name )
-		if not f:
-			return
-
+	def from_diff_eq(self, string):
+		index = 0
+		max_index = len(string) - 1
+		
 		# get number of species
-		line = f.readline()
+		if max_indes == -1:
+			raise FileFormatError('Species count missing.')
 		
-		if line[-1] != '\n':
-			f.close()
-			raise FileFormatError('Number of species missing.')
-		
+		line = string[index]
+		index += 1
 		num_species = int(line.split()[0])
 		
 		# get species
-		line = f.readline()
-		
-		if line[-1] != '\n':
-			f.close()
+		if max_index == 1 && num_species != 0:
 			raise FileFormatError('Species names missing.')
 		
+		if max_index > 1 && num_species == 0:
+			raise FileFormatError('String too long.')
+			
+		line = string[index]
+		index += 1
 		self.Species.update( line.split() )
 		
 		if num_species != len(self.Species):
-			f.close()
 			raise FileFormatError('Invalid number of species names.')
 		
 		# get species and num_terms
 		for i in range(num_species):
-			line = f.readline()
-			
-			if line[-1] != '\n':
-				f.close()
+			if index > max_index:
 				raise FileFormatError('Species header missing.')
 			
-			list = line.split()
-			spec = list[0]
-			num_terms = int(list[1])
+			line = string[index]
+			index += 1
+			header = line.split()
+			spec = header[0]
+			num_terms = int(header[1])
 			
 			#get terms
 			for j in range(num_terms):
-				line = f.readline()
-				
-				if j != num_terms - 1 and line[-1] != '\n':
-					f.close()
+				if index > max_index:
 					raise FileFormatError('Term missing.')
-				
-				list = line.split()
+					
+				line = string[index]
+				index += 1
+				term = line.split()
 				
 				# sign
-				negative = (list[0][0] == '-')
+				negative = (term[0][0] == '-')
 				
 				# rate
-				rate_list = list[0].split(':')
-				rate_coeff = int( rate_list[0].strip('-') )
-				rate_var = rate_list[1]
+				rate = term[0].split(':')
+				rate_coeff = int(rate[0].strip('-'))
+				rate_var = rate[1]
 				
 				# reactants
 				reactant_dict = {}
@@ -228,7 +223,6 @@ class CRN:
 					exp_list = list[k].split(':')
 					
 					if exp_list[0] not in self.Species:
-						f.close()
 						raise FileFormatError('Invalid species.')
 						
 					reactant_dict[exp_list[0]] = int(exp_list[1])
@@ -243,7 +237,6 @@ class CRN:
 				coeff = reactant_dict.get(spec, 0)
 				
 				if negative and coeff < 1:
-					f.close()
 					raise FileFormatError('Illegal differential equation.')
 				elif negative and coeff > 1:
 					product_dict[spec] = coeff - 1
@@ -253,15 +246,9 @@ class CRN:
 				
 				reaction = Reaction(rate_coeff, rate_var, reactant_dict, product_dict)
 				self.Reactions.add(reaction)
-
 		
-		line = f.readline()
-		
-		if line:
-			f.close()
+		if index < max_index:
 			raise FileFormatError('File too long.')
-		
-		f.close()
 
 	# Option to read from a more human-friendly format e.g.
 	# A + B -> C, D -> E, etc.
