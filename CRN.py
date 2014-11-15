@@ -248,7 +248,7 @@ class CRN:
 				self.Reactions.add(reaction)
 		
 		if index < max_index:
-			raise FileFormatError('File too long.')
+			raise FileFormatError('String too long.')
 
 	# Option to read from a more human-friendly format e.g.
 	# A + B -> C, D -> E, etc.
