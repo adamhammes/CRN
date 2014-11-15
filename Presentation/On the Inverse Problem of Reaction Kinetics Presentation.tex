@@ -1,0 +1,41 @@
+%setup beamer presentation
+\documentclass[11pt]{beamer}
+\usetheme{Darmstadt}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{centernot}
+
+%presentation information
+\title{On the Inverse Problem of Reaction Kinetics}
+\subtitle{J{\'a}nos T{\'o}th, Vera H{\'a}rs}
+\author{Adam Hammes, Charlie Labuzzetta, Nyle Sutton}
+\institute{Iowa State University}
+\date{\today}
+
+%custom text boxes
+\newtheorem{ex}{Example}
+\newtheorem{prelim}{Preliminary Notes}
+\newtheorem{rmk}{Remark}
+
+%section divider
+\AtBeginSection[]{
+	\begin{frame}<beamer>{Outline}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+\begin{document}
+	
+	%title page
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	%table of contents
+	\begin{frame}{Outline}
+		\tableofcontents
+	\end{frame}
+	
+\end{document}
