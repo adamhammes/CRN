@@ -1,6 +1,5 @@
 from __future__ import print_function # allows us to easily print to the same line twice
 from __future__ import unicode_literals
-from Reaction import Reaction
 from Errors import FileFormatError
 import re
 import os
@@ -9,16 +8,19 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+4
+class Reaction:
+	def __init__(self, rate_coeff, rate_var, reactants, products):
+		self.rate_coeff = rate_coeff
+		self.rate_var = rate_var
+		self.reactants = reactants
+		self.products = products
+	
+	def stoichiometry(self, species):
+		return self.products.get(species, 0) - self.reactants.get(species, 0)
+
 class CRN:
-	class Reaction:
-		def __init__(self, rate_coeff, rate_var, reactants, products):
-			self.rate_coeff = rate_coeff
-			self.rate_var = rate_var
-			self.reactants = reactants
-			self.products = products
-		
-		def stoichiometry(self, species):
-			return self.products.get(species, 0) - self.reactants.get(species, 0)
+
 
 	def __init__(self, diff_eq_txt = None, crn_txt = None, eq_text = None):
 		self.Species = set()
@@ -29,6 +31,9 @@ class CRN:
 
 		if eq_text:
 			self.from_equations( eq_text )
+
+	def __str__( self ):
+		return self.crn_print
 
 
 	def from_equations( self, array):
@@ -161,10 +166,6 @@ class CRN:
 			line_num += 1
 
 		self.from_diff_eq( to_print )
-		return '\n'.join( to_print )
-
-
-
 
 
 	# This should follow the specifications we discussed Monday
@@ -174,7 +175,7 @@ class CRN:
 		max_index = len(string) - 1
 		
 		# get number of species
-		if max_indes == -1:
+		if max_index == -1:
 			raise FileFormatError('Species count missing.')
 		
 		line = string[index]
@@ -226,8 +227,8 @@ class CRN:
 				# reactants
 				reactant_dict = {}
 				
-				for k in range(1, len(list)):
-					exp_list = list[k].split(':')
+				for k in range(1, len( term )):
+					exp_list = term[k].split(':')
 					
 					if exp_list[0] not in self.Species:
 						raise FileFormatError('Invalid species.')
@@ -236,7 +237,7 @@ class CRN:
 				
 				# products
 				product_dict = {}
-				
+
 				for reactant, coefficient in reactant_dict.iteritems():
 					if reactant != spec:
 						product_dict[reactant] = coefficient
@@ -250,9 +251,9 @@ class CRN:
 				else:
 					product_dict[spec] = coeff + 1
 
-				
 				reaction = Reaction(rate_coeff, rate_var, reactant_dict, product_dict)
 				self.Reactions.add(reaction)
+
 		
 		if index < max_index:
 			raise FileFormatError('String too long.')
@@ -270,6 +271,7 @@ class CRN:
 	# D -> E
 	# etc.
 	def crn_print(self, file_name = None, console = None):
+		print( 'crn_print')
 		to_print = []
 		
 		for reaction in self.Reactions:
@@ -309,6 +311,8 @@ class CRN:
 			to_print.append(''.join(line))
 
 		self.array_print( to_print, file_name, console)
+
+		return '\n'.join( to_print )
 
 	
 	# Prints the differential equations which describe the behavior of
