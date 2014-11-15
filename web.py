@@ -12,7 +12,7 @@ def index():
 		input_text = request.form['equations']
 		try:
 			crn = CRN( eq_text = input_text.split( '\n' ) )
-			crn_text = str( crn )
+			crn_text = crn.crn_print()
 		except FileFormatError as e:
 			crn_text = 'Error:\n' + str(e)
 
