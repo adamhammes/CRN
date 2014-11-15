@@ -1,4 +1,0 @@
-A + B + C -> B + C (Reaction Rate = 2[alpha])
-A -> A + B (Reaction Rate = [beta])
-A -> A + C (Reaction Rate = [gamma])
-A + B -> A + B + D (Reaction Rate = [delta])
