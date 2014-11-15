@@ -21,19 +21,14 @@ class CRN:
 			self.from_equations( eq_text )
 
 
-	def from_equations( self, file_name ):
-		f = self.safe_open( file_name )
-		if not f:
-			return
-
+	def from_equations( self, array):
 		to_print = []
 		lines = []
-		for line in f:
+		for line in array:
 			stripped = line.strip()
 			if stripped:
 				lines.append( stripped )
 
-		f.close()
 
 		# pull all the species from the left side of the equation
 
@@ -156,6 +151,8 @@ class CRN:
 			line_num += 1
 
 		self.from_diff_eq( to_print )
+		return '\n'.join( to_print )
+
 
 
 
@@ -175,10 +172,10 @@ class CRN:
 		num_species = int(line.split()[0])
 		
 		# get species
-		if max_index == 1 && num_species != 0:
+		if max_index == 1 and num_species != 0:
 			raise FileFormatError('Species names missing.')
 		
-		if max_index > 1 && num_species == 0:
+		if max_index > 1 and num_species == 0:
 			raise FileFormatError('String too long.')
 			
 		line = string[index]
