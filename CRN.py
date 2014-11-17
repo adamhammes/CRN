@@ -32,7 +32,7 @@ class CRN:
 			self.from_equations( eq_text )
 
 	def __str__( self ):
-		return self.crn_print
+		return self.crn_print()
 
 
 	def from_equations( self, array):
@@ -270,7 +270,6 @@ class CRN:
 	# D -> E
 	# etc.
 	def crn_print(self, file_name = None, console = None):
-		print( 'crn_print')
 		to_print = []
 		
 		for reaction in self.Reactions:
