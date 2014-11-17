@@ -8,7 +8,6 @@ import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-4
 class Reaction:
 	def __init__(self, rate_coeff, rate_var, reactants, products):
 		self.rate_coeff = rate_coeff
