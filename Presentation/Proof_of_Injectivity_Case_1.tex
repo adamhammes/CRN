@@ -1,0 +1,16 @@
+\begin{frame}{Proof of Injectivity - Case 1: $p_{A} \neq p_{B}$}
+\begin{itemize}
+\item $\exists$ terms $\alpha_{A} \in p_{A}, \alpha_{B} \in p_{B}$, such that $\alpha_{A} \neq \alpha_{B}$.
+\item We can write $\alpha_{A} = \phi_{\alpha_{A}}(x) \prod\limits_{y \in \Lambda} \left[ y \right]^{\textbf{r}_{\alpha_{A}}(y)}$.
+\item Likewise $\alpha_{B} = \phi_{\alpha_{B}}(x) \prod\limits_{y \in \Lambda} \left[ y \right]^{\textbf{r}_{\alpha_{B}}(y)}$.
+\item Then either $\phi_{\alpha_{A}}(x) \neq \phi_{\alpha_{B}}(x)$ or $\textbf{r}_{\alpha_{A}} \neq \textbf{r}_{\alpha_{B}}$.
+\item Applying the algorithm to $\alpha_{A}$ and $\alpha_{B}$ we get reactions $\rho_{A}$ and $\rho_{B}$ as follows:
+	\begin{itemize}
+	\item $\rho_{A} = \sum\limits_{y \in \Lambda} \textbf{r}_{\alpha_{A}}(y) y \xrightarrow{\phi_{\alpha_{A}}(x)}
+		  (\textbf{r}_{\alpha_{A}}(x) + 1) x + \sum\limits_{x \neq y \in \Lambda} \textbf{r}_{\alpha_{A}}(y) y$.
+    \item $\rho_{B} = \sum\limits_{y \in \Lambda} \textbf{r}_{\alpha_{B}}(y) y \xrightarrow{\phi_{\alpha_{B}}(x)}
+		  (\textbf{r}_{\alpha_{B}}(x) + 1) x + \sum\limits_{x \neq y \in \Lambda} \textbf{r}_{\alpha_{B}}(y) y$.
+	\end{itemize}
+\item Then $\rho_{A} \neq \rho_{B}$, so the resulting CRNs from $A$ and $B$ are not equal.
+\end{itemize}
+\end{frame}
