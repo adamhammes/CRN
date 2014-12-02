@@ -1,17 +1,12 @@
 \begin{frame}{Proof of Theorem - Forward Direction}
-    
-    	\[\dot x = \sum_{\rho \in R^*} \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)}\]
-        
-        \[\dot x = \sum_{\rho \in R^+} \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} + \sum_{\rho \in R^-} \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)}\]
-        
-        \[\dot x = \sum_{\rho \in R^+} \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} - \sum_{\rho \in R^-} -\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)}\]
-        
-        \begin{center} \(\exists x \in \Lambda\), which \(q_{\rho}(x) > p_{\rho}(x)\) for \(\phi_{\rho}(x) = k_{\rho}(\textbf{p}_{\rho}(x) - \textbf{q}_{\rho}(x))\) \end{center}   
-        
-        %alternate: \[\exists x \in \Lambda, [r_{p(x)} > p_{p(x)} \space | \space \phi_{p(x)} = k_{p}(\underaccent{\tilde}{p}_{p(x)} - \underaccent{\tilde}{r}_{p(x)})] \] 
-        
-        \[\dot x = \sum_{\rho \in R^+} \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} - x\sum_{\rho \in R^-} -\phi_{\rho}(x) [x]^{\textbf{r}_{\rho}(x)-1} \prod_{x \neq y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)}\]
-        
-        \[\dot x = p - xq\]
-    
+\begin{align*}
+	[\dot x] & = \sum_{\rho \in R} \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} \\  
+	[\dot x] & = \sum_{\rho \in R^+} \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} + \sum_{\rho \in R^-} \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} \\
+	[\dot x] & = \sum_{\rho \in R^+} \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} - \sum_{\rho \in R^-} -\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)}
+\end{align*}
+	\begin{center} \(\exists x \in \Lambda\), which \(q_{\rho}(x) > p_{\rho}(x)\) for \(\phi_{\rho}(x) = k_{\rho}(\textbf{p}_{\rho}(x) - \textbf{q}_{\rho}(x))\) \end{center}
+\begin{align*}
+	[\dot x] & = \sum_{\rho \in R^+} \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} - x\sum_{\rho \in R^-} -\phi_{\rho}(x) [x]^{\textbf{r}_{\rho}(x)-1} \prod_{x \neq y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} \\
+	[\dot x] & = p - xq
+\end{align*}
 \end{frame}
