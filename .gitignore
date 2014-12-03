@@ -1,4 +1,7 @@
 *.pyc
+*.fls
+*.nav
+*.snm
 *.aux
 *.glo
 *.idx
