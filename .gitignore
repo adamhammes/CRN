@@ -1,4 +1,5 @@
 *.pyc
+*.fdb_latexmk
 *.fls
 *.nav
 *.snm
