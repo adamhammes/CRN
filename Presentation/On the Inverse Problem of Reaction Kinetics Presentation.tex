@@ -8,6 +8,10 @@
 \usepackage{centernot}
 \usepackage{lmodern}% http://ctan.org/pkg/lm
 
+\definecolor{links}{HTML}{2A1B81}
+\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+
+
 %presentation information
 \title{On the Inverse Problem of Reaction Kinetics}
 \subtitle{J{\'a}nos T{\'o}th, Vera H{\'a}rs, 1979}
@@ -41,9 +45,7 @@
 	
 	%motivation
 	\section{Motivation}
-	\begin{frame}
-	%This frame is a place holder.
-	\end{frame}
+	\input{motivation/motivation.tex}
 	
 	%problem description
 	\section{Main Result}
@@ -52,6 +54,8 @@
 	%proof of solution
 	\input{Proof_of_Theorem_Forward.tex}
 	\input{Proof_of_Theorem_Reverse.tex}
+	
+	\section{Algorithm}
 	\input{Algorithm_Description.tex}
 	
 	%proof of injectivity
@@ -61,17 +65,13 @@
 	\input{Proof_of_Injectivity_Case_1.tex}
 	\input{Proof_of_Injectivity_Case_2.tex}
 
+
 	
 	%presentation of web utility
 	\section{Web Utility}
-	\begin{frame}
-	%This frame is a place holder.
-	\end{frame}
+	\input{utility/utility.tex}
 
 	%future problems
 	\section{Future Endeavors}
-	\begin{frame}
-	%This frame is a place holder.
-	\end{frame}
-	
+		\input{Future/future_direction}
 \end{document}
