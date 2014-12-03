@@ -1,14 +1,24 @@
 \begin{frame}{Proof of Theorem - Reverse Direction}
     
-	For a system of differential equations of the form \(\dot x = p - xq\) there exists a unique "canonic mechanism" which can be algorithmically derived from the differential equations.\newline
+	%For a system of differential equations of the form \(\dot x = p - xq\) there exists a unique "canonic mechanism" which can be algorithmically derived from the differential equations.\newline
         
-  	For each differential equation, each chemical complex belonging to the products \(p\) of form \(\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)}\) is increased by \(\dot x\) at rate \(\phi_{p(x)}\). Each of the chemical complexes belonging to the reactants \(r\), uneffected by negative cross effects and of form \(x\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)}\) is decreased by \(\dot x\) at rate \(\phi_{p(x)}\).\newline
+  	For each differential equation of the form \([\dot x] = p - xq\):\newline
+  	
+  	Each chemical complex belonging to the sum of the products \(p\) of form \(\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)}\) is increased by \(x\) at rate \(\phi_{\rho}(x)\).\newline
+    
+    \(\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} \to \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} + x\) \newline
+  	
+  	Each chemical complex belonging to the sum of the reactants \(r\), uneffected by negative cross effects and of form \(x\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)}\) is decreased by \(x\) at rate \(\phi_{\rho}(x)\).\newline
+    
+    \(x\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} \to x\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} -  x\)\newline
         
-        %product equation before: \(\phi_{p(x)}\textbf{p}_{y \in \Lambda}^{\textbf{r}_{p(y)}}\) 
+    %product equation before: \(\phi_{p(x)}\textbf{p}_{y \in \Lambda}^{\textbf{r}_{p(y)}}\) 
       	%reactant equation before: \(x\phi_{p(x)}q_{y \in \Lambda}^{\textbf{r}_{p(y)}}\)
         
-        Thus we can form the reactions:\newline \newline
-        \(p_{y \in \Lambda}^{\textbf{r}_{p(y)}} \to p_{y \in \Lambda}^{\textbf{r}_{p(y)}} + \dot x\) \newline \newline
-        \(xq_{y \in \Lambda}^{\textbf{r}_{p(y)}} \to xq_{y \in \Lambda}^{\textbf{r}_{p(y)}} - \dot x\)
+        %Thus we can form the reactions:\newline \newline
+        %\(\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} \to \phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} + \dot x\) \newline \newline
+        %\(x\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} \to x\phi_{\rho}(x) \prod_{y \in \Lambda} [y]^{\textbf{r}_{\rho}(y)} - \dot x\)    
+        
+    Therefore, we can form a unique "canonic mechanism" for the system.
    
 \end{frame}
